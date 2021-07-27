@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import '../types/meals_screen_args.dart';
 
 class Meals extends StatelessWidget {
-  final String title;
-  Meals(this.title);
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as MealsScreenArgs;
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
+      appBar: AppBar(title: Text(args.title)),
       body: Center(
-        child: Text(title),
+        child: Text(args.title),
       ),
     );
   }
