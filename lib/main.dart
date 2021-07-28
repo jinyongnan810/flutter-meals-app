@@ -24,8 +24,12 @@ class MyApp extends StatelessWidget {
                   fontSize: 20,
                   fontFamily: 'RobotoCondensed',
                   fontWeight: FontWeight.bold))),
-      home: Categories(),
-      routes: {'/meals': (ctx) => Meals()},
+      // home: Categories(),
+      routes: {
+        // initialRoute is default /
+        '/': (ctx) => Categories(),
+        '/meals': (ctx) => Meals()
+      },
     );
   }
 }
