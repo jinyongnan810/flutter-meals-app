@@ -1,4 +1,5 @@
 class MealsScreenArgs {
+  final String id;
   final String title;
-  MealsScreenArgs(this.title);
+  MealsScreenArgs(this.id, this.title);
 }
