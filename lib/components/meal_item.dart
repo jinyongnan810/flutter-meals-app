@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-import '../models/meal.dart';
+import '../types/meal_screen_args.dart';
+import '../models/meal.dart' as MealModel;
+import '../screens/meal.dart';
 
 class MealItem extends StatelessWidget {
-  final Meal meal;
+  final MealModel.Meal meal;
   MealItem(this.meal);
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context)
+            .pushNamed(Meal.routeName, arguments: MealScreenArgs(this.meal.id));
+      },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         elevation: 4,
