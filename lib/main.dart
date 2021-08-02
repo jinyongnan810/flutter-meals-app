@@ -32,6 +32,17 @@ class MyApp extends StatelessWidget {
         Meals.routeName: (ctx) => Meals(),
         Meal.routeName: (ctx) => Meal()
       },
+      // onGenerateRoute: (settings) {
+      //   // when the route name does not exist in routes,
+      //   // use setteings to decide which page it should render.
+      //   print(settings.arguments);
+      //   return MaterialPageRoute(builder: (ctx) => Categories());
+      // },
+      onUnknownRoute: (settings) {
+        // fallback page
+        print(settings.arguments);
+        return MaterialPageRoute(builder: (ctx) => Categories());
+      },
     );
   }
 }
