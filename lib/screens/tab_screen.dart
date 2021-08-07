@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../components/main_drawer.dart';
 import './categories.dart';
 import './favorites.dart';
 
@@ -25,6 +26,7 @@ class _TabScreenState extends State<TabScreen> {
       appBar: AppBar(
         title: Text('Meals App - ${tabs[selectedIndex].title}'),
       ),
+      drawer: MainDrawer(),
       body: tabs[selectedIndex].tab,
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Theme.of(context).primaryColor,
