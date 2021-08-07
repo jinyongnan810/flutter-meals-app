@@ -5,13 +5,18 @@ import '../screens/meal.dart';
 
 class MealItem extends StatelessWidget {
   final MealModel.Meal meal;
-  MealItem(this.meal);
+  final Function deleteMeal;
+  MealItem(this.meal, this.deleteMeal);
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.of(context)
+      onTap: () async {
+        // await will finish when the pushed page is poped
+        final result = await Navigator.of(context)
             .pushNamed(Meal.routeName, arguments: MealScreenArgs(this.meal.id));
+        if (result != null) {
+          deleteMeal(result);
+        }
       },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
