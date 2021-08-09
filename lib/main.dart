@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:meals/screens/filter.dart';
+import './models/filters.dart';
+import './models/meal.dart' as MealModel;
+import './models/dummy_meals.dart';
+import './screens/filter.dart';
 import './screens/categories.dart';
 import './screens/meals.dart';
 import './screens/meal.dart';
@@ -9,8 +12,36 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  FiltersData filtersData = new FiltersData();
+  List<MealModel.Meal> availableMeals = DUMMY_MEALS;
+  void saveFilters(FiltersData newFilters) {
+    setState(() {
+      this.filtersData = newFilters;
+      availableMeals = DUMMY_MEALS.where((meal) {
+        if (this.filtersData.showVegan && !meal.isVegan) {
+          return false;
+        }
+        if (this.filtersData.showVegetarian && !meal.isVegetarian) {
+          return false;
+        }
+        if (this.filtersData.showGlutenFree && !meal.isGlutenFree) {
+          return false;
+        }
+        if (this.filtersData.showLactoseFree && !meal.isLactoseFree) {
+          return false;
+        }
+        return true;
+      }).toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,9 +64,9 @@ class MyApp extends StatelessWidget {
         // initialRoute is default /
         // '/': (ctx) => Categories(),
         '/': (ctx) => TabScreen(),
-        Meals.routeName: (ctx) => Meals(),
+        Meals.routeName: (ctx) => Meals(availableMeals),
         Meal.routeName: (ctx) => Meal(),
-        FilterScreen.routeName: (ctx) => FilterScreen()
+        FilterScreen.routeName: (ctx) => FilterScreen(saveFilters, filtersData)
       },
       // onGenerateRoute: (settings) {
       //   // when the route name does not exist in routes,

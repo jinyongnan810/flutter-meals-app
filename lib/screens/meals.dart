@@ -6,6 +6,8 @@ import '../types/meals_screen_args.dart';
 
 class Meals extends StatefulWidget {
   static const routeName = '/meals';
+  List<Meal> availableMeals = [];
+  Meals(this.availableMeals);
 
   @override
   _MealsState createState() => _MealsState();
@@ -27,14 +29,15 @@ class _MealsState extends State<Meals> {
     // meals =
     //     DUMMY_MEALS.where((meal) => meal.categories.contains(args.id)).toList();
     // categoryTitle = args.title;
+
+    this.meals = widget.availableMeals;
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
     final args = ModalRoute.of(context)!.settings.arguments as MealsScreenArgs;
-    meals =
-        DUMMY_MEALS.where((meal) => meal.categories.contains(args.id)).toList();
+    meals = meals.where((meal) => meal.categories.contains(args.id)).toList();
     categoryTitle = args.title;
     super.didChangeDependencies();
   }
