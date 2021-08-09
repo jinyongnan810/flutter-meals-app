@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../models/meal.dart';
 import '../components/main_drawer.dart';
 import './categories.dart';
 import './favorites.dart';
@@ -10,16 +11,24 @@ class TabInfo {
 }
 
 class TabScreen extends StatefulWidget {
+  List<Meal> favorites;
+  TabScreen(this.favorites);
   @override
   _TabScreenState createState() => _TabScreenState();
 }
 
 class _TabScreenState extends State<TabScreen> {
-  final List<TabInfo> tabs = [
-    new TabInfo('Categories', Categories()),
-    new TabInfo('Favorites', Favorites())
-  ];
+  List<TabInfo> tabs = [];
   int selectedIndex = 0;
+  @override
+  void initState() {
+    tabs = [
+      new TabInfo('Categories', Categories()),
+      new TabInfo('Favorites', Favorites(widget.favorites))
+    ];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import '../types/meal_screen_args.dart';
 import '../models/dummy_meals.dart';
+import '../models/meal.dart' as MealModel;
 
 class Meal extends StatelessWidget {
   static const routeName = '/meal';
-  final meals = DUMMY_MEALS;
+  final Function isFavorite;
+  final Function toggleFavorite;
+  final List<MealModel.Meal> meals = DUMMY_MEALS;
+  Meal(this.isFavorite, this.toggleFavorite);
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as MealScreenArgs;
@@ -35,6 +39,12 @@ class Meal extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(meal.title),
+        actions: [
+          IconButton(
+              onPressed: () => this.toggleFavorite(meal.id),
+              icon: Icon(
+                  this.isFavorite(meal.id) ? Icons.star : Icons.star_border))
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(

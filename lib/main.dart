@@ -21,6 +21,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   FiltersData filtersData = new FiltersData();
   List<MealModel.Meal> availableMeals = DUMMY_MEALS;
+  List<MealModel.Meal> favorites = [];
   void saveFilters(FiltersData newFilters) {
     setState(() {
       this.filtersData = newFilters;
@@ -40,6 +41,23 @@ class _MyAppState extends State<MyApp> {
         return true;
       }).toList();
     });
+  }
+
+  void toggleFavorite(String mealId) {
+    final bool isFavorite = favorites.any((meal) => meal.id == mealId);
+    if (isFavorite) {
+      setState(() {
+        favorites.removeWhere((meal) => meal.id == mealId);
+      });
+    } else {
+      setState(() {
+        favorites.add(availableMeals.firstWhere((meal) => meal.id == mealId));
+      });
+    }
+  }
+
+  bool isFavorite(String mealId) {
+    return favorites.any((meal) => meal.id == mealId);
   }
 
   @override
@@ -63,9 +81,9 @@ class _MyAppState extends State<MyApp> {
       routes: {
         // initialRoute is default /
         // '/': (ctx) => Categories(),
-        '/': (ctx) => TabScreen(),
+        '/': (ctx) => TabScreen(favorites),
         Meals.routeName: (ctx) => Meals(availableMeals),
-        Meal.routeName: (ctx) => Meal(),
+        Meal.routeName: (ctx) => Meal(isFavorite, toggleFavorite),
         FilterScreen.routeName: (ctx) => FilterScreen(saveFilters, filtersData)
       },
       // onGenerateRoute: (settings) {
